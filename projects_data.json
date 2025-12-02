@@ -1,0 +1,277 @@
+{
+  "dog_breed_identifier": {
+    "id": "dog_breed_identifier",
+    "name": "dog breed identifier",
+    "repo_url": "https://github.com/subrahmanyam024/dog-breed-identifier",
+    "repo_path": "C:\\Users\\Hp\\AppData\\Local\\Temp\\repo_cache\\dog-breed-identifier",
+    "uploaded_files": 0,
+    "repository_files": 6,
+    "analyzed": true,
+    "created_at": "2025-11-20T11:29:51.485926",
+    "last_updated": "2025-11-20T11:29:51.613542",
+    "repo_data": {
+      "structure": {
+        "path": "C:\\Users\\Hp\\AppData\\Local\\Temp\\repo_cache\\dog-breed-identifier",
+        "files": [
+          {
+            "path": "app.py",
+            "name": "app.py",
+            "extension": ".py",
+            "size": 5906
+          },
+          {
+            "path": "index.html",
+            "name": "index.html",
+            "extension": ".html",
+            "size": 1951
+          },
+          {
+            "path": "README.md",
+            "name": "README.md",
+            "extension": ".md",
+            "size": 4369
+          },
+          {
+            "path": "script.js",
+            "name": "script.js",
+            "extension": ".js",
+            "size": 3788
+          },
+          {
+            "path": "style.css",
+            "name": "style.css",
+            "extension": ".css",
+            "size": 95
+          },
+          {
+            "path": "train.py",
+            "name": "train.py",
+            "extension": ".py",
+            "size": 2417
+          }
+        ],
+        "directories": [],
+        "total_files": 6,
+        "languages": [
+          ".css",
+          ".html",
+          ".js",
+          ".md",
+          ".py"
+        ]
+      },
+      "files": {
+        "README.md": "# Dog Breed Identifier Web Application\n\nThis project is a simple web application that allows users to upload an image of a dog, and then uses a pre-trained deep learning model to predict the dog's breed and provide a confidence score.\n\n## Features\n\n* **Image Upload:** Easily upload dog images via drag-and-drop or file selection.\n* **Breed Prediction:** Utilizes a TensorFlow/Keras model to predict the dog's breed from a large dataset.\n* **Confidence Score:** Displays the prediction confidence for the identified breed.\n* **User-Friendly Frontend:** A clean and responsive user interface built with HTML, CSS (Tailwind CSS), and JavaScript.\n* **Python Backend:** A Flask server handles image processing and model inference.\n\n## Technologies Used\n\n* **Backend:**\n    * Python 3.x\n    * Flask (Web Framework)\n    * TensorFlow / Keras (Deep Learning Library)\n    * Pillow (PIL - Image processing)\n    * Numpy (Numerical operations)\n    * Requests (for potential external API calls, e.g., Dog API for sample images if that feature was active)\n    * Flask-CORS (for handling Cross-Origin Resource Sharing during development)\n* **Frontend:**\n    * HTML5\n    * Tailwind CSS (for styling)\n    * JavaScript (for dynamic interactions and API calls)\n* **Model:**\n    * Pre-trained Convolutional Neural Network (`dog_breed_model.h5`), likely based on **MobileNetV2** architecture for efficient inference.\n\n## Setup and Installation\n\nFollow these steps to get the project running on your local machine.\n\n### 1. Clone the Repository (if you haven't already)\n\nIf you're setting this up on a new machine, clone your project from GitHub:\n\n```bash\ngit clone [https://github.com/subrahmanyam024/dog-breed-identifier.git](https://github.com/subrahmanyam024/dog-breed-identifier.git)\ncd dog-breed-identifier\n\nReplace subrahmanyam024/dog-breed-identifier.git with your actual GitHub repository URL.\n\n2. Backend Setup\nIt's highly recommended to use a Python virtual environment to manage dependencies.\n\nBash\n\n# Create a virtual environment\npython -m venv venv\n\n# Activate the virtual environment\n# On Windows:\n.\\venv\\Scripts\\activate\n# On macOS/Linux:\nsource venv/bin/activate\n\n# Install required Python packages\npip install flask tensorflow pillow numpy requests flask-cors\n3. Model File\nEnsure you have the dog_breed_model.h5 file in the root directory of your project. This is the trained AI model that the backend uses for predictions.\nNote: If your model file is very large (e.g., >100MB) and was excluded from Git using .gitignore, you will need to place this file manually into your project directory after cloning/setting up.\n4. Frontend Files\nEnsure you have index.html, script.js, and style.css (if you have one) in the root directory of your project.\nRunning the Application\nStart the Flask Backend:\nMake sure your virtual environment is active (from Backend Setup step 2).\n\nBash\n\npython app.py\nThe backend will start, usually running on http://127.0.0.1:5000/. You should see messages in your terminal indicating the Flask server has started and the model has been loaded.\n\nOpen the Frontend:\nOpen your web browser and navigate to the index.html file directly. You can typically do this by:\n\nOpening your file explorer/finder, finding index.html in your project folder, and double-clicking it.\nOr, in your browser's address bar, type file:///path/to/your/project/index.html (replace with the actual path).\nThe web interface will appear, and you can now upload dog images for prediction.\n\nUsage\nOpen the index.html file in your web browser.\nClick the \"Upload Image\" button or drag and drop an image file into the designated area.\nThe application will display the uploaded image, show a loading spinner, and then present the predicted dog breed and confidence score.\nFuture Enhancements (Potential Ideas)\nDisplay Top N Predictions: Show the top 3 or 5 most likely breeds instead of just the highest one.\nImprove Model Accuracy: Fine-tune the model with more diverse or specific dog breed datasets.\nImage Preprocessing UI: Allow users to crop or rotate images before prediction.\nDeployment: Deploy the application to a cloud platform (e.g., Heroku, Google Cloud, AWS) to make it accessible online.\nMore Robust Error Handling: Provide more user-friendly messages for various backend errors.\n"
+      },
+      "analysis": {
+        "repo_dir": "C:\\Users\\Hp\\AppData\\Local\\Temp\\repo_cache\\dog-breed-identifier",
+        "files": [
+          {
+            "path": ".gitignore",
+            "content": "__pycache__/\n*.pyc\n.env\nvenv/\n*.h5 # IMPORTANT: Only include this line if your dog_breed_model.h5 is larger than 100MB!\n     # If your model file is smaller than 100MB and you want it on GitHub, DELETE this line.\n.DS_Store\n*.ipynb_checkpoints/",
+            "size": 243
+          },
+          {
+            "path": "app.py",
+            "content": "from flask import Flask, request, jsonify\nfrom flask_cors import CORS\nimport tensorflow as tf\nfrom PIL import Image\nimport numpy as np\nimport tensorflow_datasets as tfds\nimport requests # New import for making HTTP requests\n\napp = Flask(__name__)\nCORS(app) # Enable CORS for local development\n\n# --- Global variables for model and class names ---\ntrained_model = None\nCLASS_NAMES = None\nIMG_SIZE = 224 # Matches the size used during training\nCONFIDENCE_THRESHOLD = 0.5 # Your determined threshold\n\n# --- Helper function to get Dog API friendly breed name ---\n# Converts Stanford name (e.g., 'n02100877-irish_setter') to Dog API format (e.g., 'irishsetter')\ndef _get_dog_api_breed_name(stanford_breed_name):\n    try:\n        # Extract the \"breed_name\" part after 'nXXXXXXXXX-'\n        parts = stanford_breed_name.split('-')\n        if len(parts) > 1:\n            breed_part = parts[1]\n        else: # Fallback if name format is unexpected\n            breed_part = stanford_breed_name\n\n        # Convert to lowercase and remove underscores for API\n        api_name = breed_part.replace('_', '').lower()\n\n        # Handle specific exceptions for Dog API if needed (rare, but possible)\n        # For example, if \"st.bernard\" was expected instead of \"saintbernard\"\n        # if api_name == \"stbernard\":\n        #     return \"st.bernard\" # This is just an example\n\n        return api_name\n    except Exception as e:\n        print(f\"Error processing breed name for Dog API: {e}\")\n        return None # Indicate failure\n\n# --- Helper function to fetch a random image for a breed from Dog API ---\ndef get_breed_image_url(breed_api_name):\n    if not breed_api_name:\n        return None\n    try:\n        # Construct API URL for a random image of a specific breed\n        response = requests.get(f\"https://dog.ceo/api/breed/{breed_api_name}/images/random\")\n        response.raise_for_status() # Raise an exception for HTTP errors (4xx or 5xx)\n        data = response.json()\n        if data['status'] == 'success':\n            return data['message'] # This is the image URL\n    except requests.exceptions.RequestException as e:\n        print(f\"Error fetching image from Dog API for {breed_api_name}: {e}\")\n    except Exception as e:\n        print(f\"Error parsing Dog API response for {breed_api_name}: {e}\")\n    return None\n\n\n# --- Model Loading and Breed Name Initialization ---\ndef load_resources():\n    global trained_model, CLASS_NAMES\n\n    # Load the trained model\n    try:\n        trained_model = tf.keras.models.load_model('dog_breed_model.h5')\n        print(\"Trained dog_breed_model.h5 loaded successfully.\")\n    except Exception as e:\n        print(f\"Error loading trained model: {e}\")\n        trained_model = None\n\n    # Load class names from TensorFlow Datasets\n    try:\n        # We only need the info, so we can load it without the full dataset\n        _, info = tfds.load('stanford_dogs', split='train', with_info=True)\n        CLASS_NAMES = info.features['label'].names\n        print(\"Dog breed class names loaded successfully.\")\n    except Exception as e:\n        print(f\"Error loading dog breed class names: {e}\")\n        CLASS_NAMES = [f\"Breed {i}\" for i in range(120)] # Fallback if loading fails\n\n# Call load_resources when the app starts\nwith app.app_context():\n    load_resources()\n\n@app.route('/', methods=['GET'])\ndef index():\n    return \"Dog Breed Identifier Backend is Running!\"\n\n@app.route('/predict', methods=['POST'])\ndef predict():\n    if trained_model is None:\n        return jsonify({'error': 'AI model not loaded on server. Please check server logs.'}), 500\n\n    if 'image' not in request.files:\n        return jsonify({'error': 'No image uploaded'}), 400\n\n    image_file = request.files['image']\n\n    if image_file.filename == '':\n        return jsonify({'error': 'No image selected'}), 400\n\n    try:\n        # Read and preprocess the image\n        img = Image.open(image_file).convert('RGB')\n        img = img.resize((IMG_SIZE, IMG_SIZE))\n        img_array = np.array(img)\n        img_array = np.expand_dims(img_array, axis=0) # Add batch dimension\n        processed_img = tf.keras.applications.mobilenet_v2.preprocess_input(img_array) # Preprocess for MobileNetV2\n\n        # Make a prediction using the trained model\n        predictions = trained_model.predict(processed_img)\n        predicted_class_id = np.argmax(predictions)\n        confidence = np.max(predictions)\n\n        predicted_breed = \"Unknown\" # Default display string\n        breed_image_url = None # Default no image URL\n\n        # Apply confidence threshold for \"Not a Dog\"\n        if confidence < CONFIDENCE_THRESHOLD:\n            predicted_breed = \"Not a Dog (or unclear image)\"\n            confidence = 0.0 # Reset confidence to 0 if classified as not a dog\n        else:\n            # Get the Stanford breed name (e.g., 'n02100877-irish_setter')\n            predicted_breed_stanford_name = CLASS_NAMES[predicted_class_id]\n            # Format for display (e.g., \"Irish Setter\")\n            predicted_breed = predicted_breed_stanford_name.split('-')[1].replace('_', ' ').title()\n\n            # Get image URL from Dog API\n            dog_api_breed_name = _get_dog_api_breed_name(predicted_breed_stanford_name)\n            if dog_api_breed_name: # Only fetch if conversion was successful\n                breed_image_url = get_breed_image_url(dog_api_breed_name)\n\n\n        return jsonify({\n            'breed': predicted_breed,\n            'confidence': float(confidence),\n            'breed_image_url': breed_image_url # Include the image URL in the response\n        })\n\n    except Exception as e:\n        print(f\"Error during prediction: {e}\")\n        return jsonify({'error': f\"Error processing image: {str(e)}\"}), 500\n\nif __name__ == '__main__':\n    app.run(debug=True)",
+            "size": 5761
+          },
+          {
+            "path": "README.md",
+            "content": "# Dog Breed Identifier Web Application\n\nThis project is a simple web application that allows users to upload an image of a dog, and then uses a pre-trained deep learning model to predict the dog's breed and provide a confidence score.\n\n## Features\n\n* **Image Upload:** Easily upload dog images via drag-and-drop or file selection.\n* **Breed Prediction:** Utilizes a TensorFlow/Keras model to predict the dog's breed from a large dataset.\n* **Confidence Score:** Displays the prediction confidence for the identified breed.\n* **User-Friendly Frontend:** A clean and responsive user interface built with HTML, CSS (Tailwind CSS), and JavaScript.\n* **Python Backend:** A Flask server handles image processing and model inference.\n\n## Technologies Used\n\n* **Backend:**\n    * Python 3.x\n    * Flask (Web Framework)\n    * TensorFlow / Keras (Deep Learning Library)\n    * Pillow (PIL - Image processing)\n    * Numpy (Numerical operations)\n    * Requests (for potential external API calls, e.g., Dog API for sample images if that feature was active)\n    * Flask-CORS (for handling Cross-Origin Resource Sharing during development)\n* **Frontend:**\n    * HTML5\n    * Tailwind CSS (for styling)\n    * JavaScript (for dynamic interactions and API calls)\n* **Model:**\n    * Pre-trained Convolutional Neural Network (`dog_breed_model.h5`), likely based on **MobileNetV2** architecture for efficient inference.\n\n## Setup and Installation\n\nFollow these steps to get the project running on your local machine.\n\n### 1. Clone the Repository (if you haven't already)\n\nIf you're setting this up on a new machine, clone your project from GitHub:\n\n```bash\ngit clone [https://github.com/subrahmanyam024/dog-breed-identifier.git](https://github.com/subrahmanyam024/dog-breed-identifier.git)\ncd dog-breed-identifier\n\nReplace subrahmanyam024/dog-breed-identifier.git with your actual GitHub repository URL.\n\n2. Backend Setup\nIt's highly recommended to use a Python virtual environment to manage dependencies.\n\nBash\n\n# Create a virtual environment\npython -m venv venv\n\n# Activate the virtual environment\n# On Windows:\n.\\venv\\Scripts\\activate\n# On macOS/Linux:\nsource venv/bin/activate\n\n# Install required Python packages\npip install flask tensorflow pillow numpy requests flask-cors\n3. Model File\nEnsure you have the dog_breed_model.h5 file in the root directory of your project. This is the trained AI model that the backend uses for predictions.\nNote: If your model file is very large (e.g., >100MB) and was excluded from Git using .gitignore, you will need to place this file manually into your project directory after cloning/setting up.\n4. Frontend Files\nEnsure you have index.html, script.js, and style.css (if you have one) in the root directory of your project.\nRunning the Application\nStart the Flask Backend:\nMake sure your virtual environment is active (from Backend Setup step 2).\n\nBash\n\npython app.py\nThe backend will start, usually running on http://127.0.0.1:5000/. You should see messages in your terminal indicating the Flask server has started and the model has been loaded.\n\nOpen the Frontend:\nOpen your web browser and navigate to the index.html file directly. You can typically do this by:\n\nOpening your file explorer/finder, finding index.html in your project folder, and double-clicking it.\nOr, in your browser's address bar, type file:///path/to/your/project/index.html (replace with the actual path).\nThe web interface will appear, and you can now upload dog images for prediction.\n\nUsage\nOpen the index.html file in your web browser.\nClick the \"Upload Image\" button or drag and drop an image file into the designated area.\nThe application will display the uploaded image, show a loading spinner, and then present the predicted dog breed and confidence score.\nFuture Enhancements (Potential Ideas)\nDisplay Top N Predictions: Show the top 3 or 5 most likely breeds instead of just the highest one.\nImprove Model Accuracy: Fine-tune the model with more diverse or specific dog breed datasets.\nImage Preprocessing UI: Allow users to crop or rotate images before prediction.\nDeployment: Deploy the application to a cloud platform (e.g., Heroku, Google Cloud, AWS) to make it accessible online.\nMore Robust Error Handling: Provide more user-friendly messages for various backend errors.\n",
+            "size": 4279
+          },
+          {
+            "path": "train.py",
+            "content": "import tensorflow as tf\nimport tensorflow_datasets as tfds\n\n# Load the Stanford Dogs Dataset\nds_train_full, ds_info = tfds.load(\n    'stanford_dogs',\n    split='train',\n    as_supervised=True,\n    with_info=True\n)\nds_test = tfds.load(\n    'stanford_dogs',\n    split='test',\n    as_supervised=True\n)\n\n# Determine the number of examples for splitting\ntrain_size = tf.data.experimental.cardinality(ds_train_full).numpy()\nval_size = int(0.2 * train_size) # Use 20% of the training data for validation\ntrain_size = train_size - val_size\n\n# Create training and validation datasets\ntrain_ds = ds_train_full.take(train_size)\nval_ds = ds_train_full.skip(train_size).take(val_size)\n\n# Image size and number of classes\nIMG_SIZE = 224\nNUM_CLASSES = ds_info.features['label'].num_classes\n\ndef preprocess(image, label):\n    image = tf.image.resize(image, (IMG_SIZE, IMG_SIZE))\n    image = tf.keras.applications.mobilenet_v2.preprocess_input(image)\n    return image, label\n\n# Prepare the datasets for training and validation\nBATCH_SIZE = 32 # You might need to adjust this\nAUTOTUNE = tf.data.AUTOTUNE\n\ntrain_ds = train_ds.map(preprocess).shuffle(buffer_size=train_size).batch(BATCH_SIZE).prefetch(buffer_size=AUTOTUNE)\nval_ds = val_ds.map(preprocess).batch(BATCH_SIZE).prefetch(buffer_size=AUTOTUNE)\n\n# Load the base MobileNetV2 model (without the top)\nbase_model = tf.keras.applications.MobileNetV2(input_shape=(IMG_SIZE, IMG_SIZE, 3),\n                                               include_top=False,\n                                               weights='imagenet')\nbase_model.trainable = False # Freeze the base model\n\n# Create the classification head\nglobal_average_layer = tf.keras.layers.GlobalAveragePooling2D()\nprediction_layer = tf.keras.layers.Dense(NUM_CLASSES, activation='softmax')\n\n# Build the final model\nmodel = tf.keras.Sequential([\n    base_model,\n    global_average_layer,\n    prediction_layer\n])\n\n# Compile the model\nmodel.compile(optimizer='adam',\n              loss='sparse_categorical_crossentropy',\n              metrics=['accuracy'])\n\n# Train the model\nEPOCHS = 10 # Start with a small number of epochs\nhistory = model.fit(train_ds,\n                    epochs=EPOCHS,\n                    validation_data=val_ds)\n\n# Save the trained model\nmodel.save('dog_breed_model.h5')\n\nprint(\"Training complete. Model saved as dog_breed_model.h5\")",
+            "size": 2345
+          }
+        ],
+        "readme": "# Dog Breed Identifier Web Application\n\nThis project is a simple web application that allows users to upload an image of a dog, and then uses a pre-trained deep learning model to predict the dog's breed and provide a confidence score.\n\n## Features\n\n* **Image Upload:** Easily upload dog images via drag-and-drop or file selection.\n* **Breed Prediction:** Utilizes a TensorFlow/Keras model to predict the dog's breed from a large dataset.\n* **Confidence Score:** Displays the prediction confidence for the identified breed.\n* **User-Friendly Frontend:** A clean and responsive user interface built with HTML, CSS (Tailwind CSS), and JavaScript.\n* **Python Backend:** A Flask server handles image processing and model inference.\n\n## Technologies Used\n\n* **Backend:**\n    * Python 3.x\n    * Flask (Web Framework)\n    * TensorFlow / Keras (Deep Learning Library)\n    * Pillow (PIL - Image processing)\n    * Numpy (Numerical operations)\n    * Requests (for potential external API calls, e.g., Dog API for sample images if that feature was active)\n    * Flask-CORS (for handling Cross-Origin Resource Sharing during development)\n* **Frontend:**\n    * HTML5\n    * Tailwind CSS (for styling)\n    * JavaScript (for dynamic interactions and API calls)\n* **Model:**\n    * Pre-trained Convolutional Neural Network (`dog_breed_model.h5`), likely based on **MobileNetV2** architecture for efficient inference.\n\n## Setup and Installation\n\nFollow these steps to get the project running on your local machine.\n\n### 1. Clone the Repository (if you haven't already)\n\nIf you're setting this up on a new machine, clone your project from GitHub:\n\n```bash\ngit clone [https://github.com/subrahmanyam024/dog-breed-identifier.git](https://github.com/subrahmanyam024/dog-breed-identifier.git)\ncd dog-breed-identifier\n\nReplace subrahmanyam024/dog-breed-identifier.git with your actual GitHub repository URL.\n\n2. Backend Setup\nIt's highly recommended to use a Python virtual environment to manage dependencies.\n\nBash\n\n# Create a virtual environment\npython -m venv venv\n\n# Activate the virtual environment\n# On Windows:\n.\\venv\\Scripts\\activate\n# On macOS/Linux:\nsource venv/bin/activate\n\n# Install required Python packages\npip install flask tensorflow pillow numpy requests flask-cors\n3. Model File\nEnsure you have the dog_breed_model.h5 file in the root directory of your project. This is the trained AI model that the backend uses for predictions.\nNote: If your model file is very large (e.g., >100MB) and was excluded from Git using .gitignore, you will need to place this file manually into your project directory after cloning/setting up.\n4. Frontend Files\nEnsure you have index.html, script.js, and style.css (if you have one) in the root directory of your project.\nRunning the Application\nStart the Flask Backend:\nMake sure your virtual environment is active (from Backend Setup step 2).\n\nBash\n\npython app.py\nThe backend will start, usually running on http://127.0.0.1:5000/. You should see messages in your terminal indicating the Flask server has started and the model has been loaded.\n\nOpen the Frontend:\nOpen your web browser and navigate to the index.html file directly. You can typically do this by:\n\nOpening your file explorer/finder, finding index.html in your project folder, and double-clicking it.\nOr, in your browser's address bar, type file:///path/to/your/project/index.html (replace with the actual path).\nThe web interface will appear, and you can now upload dog images for prediction.\n\nUsage\nOpen the index.html file in your web browser.\nClick the \"Upload Image\" button or drag and drop an image file into the designated area.\nThe application will display the uploaded image, show a loading spinner, and then present the predicted dog breed and confidence score.\nFuture Enhancements (Potential Ideas)\nDisplay Top N Predictions: Show the top 3 or 5 most likely breeds instead of just the highest one.\nImprove Model Accuracy: Fine-tune the model with more diverse or specific dog breed datasets.\nImage Preprocessing UI: Allow users to crop or rotate images before prediction.\nDeployment: Deploy the application to a cloud platform (e.g., Heroku, Google Cloud, AWS) to make it accessible online.\nMore Robust Error Handling: Provide more user-friendly messages for various backend errors.\n",
+        "readme_path": "README.md",
+        "langs": {
+          ".py": 2,
+          ".md": 1
+        },
+        "dependencies": {},
+        "missing": [
+          "Missing: LICENSE",
+          "Missing: CONTRIBUTING.md",
+          "Missing: CODE_OF_CONDUCT.md",
+          "Missing: Tests",
+          "Missing: Documentation",
+          "Missing: Examples",
+          "Missing: CI/CD",
+          "README missing: Contributing section",
+          "README missing: License section"
+        ],
+        "project_type": "Python",
+        "structure": {
+          "has_src": false,
+          "has_tests": false,
+          "has_docs": false,
+          "has_examples": false,
+          "has_docker": false,
+          "has_ci": false,
+          "directory_tree": {}
+        },
+        "best_practices": {
+          "has_changelog": false,
+          "has_security_policy": false,
+          "has_pull_request_template": false,
+          "has_issue_templates": false,
+          "has_code_of_conduct": false,
+          "has_badges": false
+        },
+        "total_files": 4,
+        "repo_size": 12628
+      },
+      "repo_url": "https://github.com/subrahmanyam024/dog-breed-identifier"
+    }
+  },
+  "rag": {
+    "id": "rag",
+    "name": "RAG",
+    "repo_url": "https://github.com/subrahmanyam024/RAG",
+    "repo_path": "C:\\Users\\Hp\\AppData\\Local\\Temp\\repo_cache\\RAG",
+    "uploaded_files": 0,
+    "repository_files": 6,
+    "analyzed": true,
+    "created_at": "2025-11-21T19:56:24.204042",
+    "last_updated": "2025-11-21T19:56:24.647060",
+    "repo_data": {
+      "structure": {
+        "path": "C:\\Users\\Hp\\AppData\\Local\\Temp\\repo_cache\\RAG",
+        "files": [
+          {
+            "path": "app.py",
+            "name": "app.py",
+            "extension": ".py",
+            "size": 6329
+          },
+          {
+            "path": "app1.py(using ollama openchat)",
+            "name": "app1.py(using ollama openchat)",
+            "extension": ".py(using ollama openchat)",
+            "size": 5300
+          },
+          {
+            "path": "process(using ollama openchat).txt",
+            "name": "process(using ollama openchat).txt",
+            "extension": ".txt",
+            "size": 1285
+          },
+          {
+            "path": "process.txt",
+            "name": "process.txt",
+            "extension": ".txt",
+            "size": 7201
+          },
+          {
+            "path": "README.md",
+            "name": "README.md",
+            "extension": ".md",
+            "size": 2168
+          },
+          {
+            "path": "requirements.txt",
+            "name": "requirements.txt",
+            "extension": ".txt",
+            "size": 114
+          }
+        ],
+        "directories": [],
+        "total_files": 6,
+        "languages": [
+          ".md",
+          ".py",
+          ".py(using ollama openchat)",
+          ".txt"
+        ]
+      },
+      "files": {
+        "README.md": "# \ud83d\udcda Ask Your PDF Documents (Gemini-Powered)\n\nThis is a Streamlit app that lets you upload PDF documents and ask questions about them. It uses:\n- **Google Gemini** for answering questions,\n- **Qdrant** for vector storage and retrieval,\n- **Sentence Transformers** for generating embeddings.\n\n---\n\n## \ud83d\ude80 Features\n\n- Upload and index multiple PDFs.\n- Ask natural language questions about any document.\n- Answers are generated based on document content.\n- Chat history and Q&A stored per document.\n- Clear chat and re-index anytime.\n\n---\n\n## \ud83d\udee0 Requirements\n\n- Python 3.10 or later\n- Virtual environment (recommended)\n\n---\n\n## \ud83d\udce6 Installation\n\n1. **Clone the Repository or Download Files**\n\n```bash\ngit clone https://github.com/your-username/pdf-gemini-app.git\ncd pdf-gemini-app\n\nSet up a virtual environment\n\nbash\n\npython -m venv .venv\nsource .venv/bin/activate  # On Windows: .venv\\Scripts\\activate\n\nInstall dependencies\n\nbash\n\npip install -r requirements.txt\n\n\ud83d\udd11 Environment Variables\nCreate a .env file in the root folder and add:\n\nenv\nCopy code\nGEMINI_API_KEY=your_google_gemini_api_key\nQDRANT_URL=https://your-qdrant-cluster-url\nQDRANT_API_KEY=your_qdrant_api_key\nGet your Gemini API key from: https://makersuite.google.com/app/apikey\n\nUse Qdrant Cloud or run Qdrant locally.\n\n\u25b6\ufe0f Run the App\nbash\nCopy code\nstreamlit run app.py\n\n\ud83e\udde0 Example Use Case\nUpload a PDF (e.g., research paper, textbook).\n\nAsk: \"What is the main conclusion in section 3?\"\n\nGet a smart, context-based answer powered by Gemini!\n\n\ud83e\udd16 Tech Stack\nStreamlit UI\n\nGoogle Gemini (google-generativeai)\n\nQdrant Vector DB\n\nSentence Transformers (all-MiniLM-L6-v2)\n\nPyPDF2 for PDF parsing\n\n\ud83d\udca1 Tips\nGemini API has daily free tier limits. Be aware of rate limits: Rate Limits Docs\n\nFor better performance, keep PDF sizes reasonable (~50 pages max per file recommended).\n\n\ud83d\udcdc License\nMIT License\n\n\ud83d\ude4c Acknowledgements\nStreamlit\n\nGoogle Generative AI\n\nQdrant\n\nHugging Face\n\nyaml\n\n\n---\n\nLet me know if you'd like me to tailor it to Hugging Face or OpenChat/Ollama instead.\n\n\n\n\n\n",
+        "requirements.txt": "streamlit\nsentence-transformers\nPyPDF2\nqdrant-client\npython-dotenv\ntransformers\ntorch\ngoogle-generativeai\n"
+      },
+      "analysis": {
+        "repo_dir": "C:\\Users\\Hp\\AppData\\Local\\Temp\\repo_cache\\RAG",
+        "files": [
+          {
+            "path": "app.py",
+            "content": "import os\nimport io\nimport time\nimport streamlit as st\nimport google.generativeai as genai\nfrom PyPDF2 import PdfReader\nfrom sentence_transformers import SentenceTransformer\nfrom qdrant_client import QdrantClient\nfrom qdrant_client.models import Filter\nfrom qdrant_client.http.models import PointStruct\nfrom dotenv import load_dotenv\nimport uuid\n\n# --- Load environment variables ---\nload_dotenv()\ngenai.configure(api_key=os.getenv(\"GEMINI_API_KEY\"))\nQDRANT_URL = os.getenv(\"QDRANT_URL\")\nQDRANT_API_KEY = os.getenv(\"QDRANT_API_KEY\")\nCOLLECTION_NAME = \"session_docs\"\n\n# --- Setup Clients ---\nclient_qdrant = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)\n\nembed_model = SentenceTransformer(\"all-MiniLM-L6-v2\",device=None)\n\n# --- Streamlit UI setup ---\nst.set_page_config(page_title=\"\ud83d\udcc4 Ask My PDF\")\nst.title(\"\ud83d\udcda Ask Your PDF Documents\")\n\n# --- Session State Setup ---\nif \"docs_uploaded\" not in st.session_state:\n    st.session_state.docs_uploaded = []\n\nif \"chat_histories\" not in st.session_state:\n    st.session_state.chat_histories = {}\n\n# --- File Upload ---\nuploaded_files = st.file_uploader(\"\ud83d\udcc2 Upload one or more PDFs\", type=\"pdf\", accept_multiple_files=True)\n\nif uploaded_files:\n    for pdf_file in uploaded_files:\n        file_name = pdf_file.name\n        if any(doc[\"file_name\"] == file_name for doc in st.session_state.docs_uploaded):\n            continue  # skip already uploaded file\n\n        doc_id = str(uuid.uuid4())\n\n        with st.spinner(f\"\ud83d\udcd6 Extracting from {file_name}...\"):\n            reader = PdfReader(io.BytesIO(pdf_file.read()))\n            full_text = \"\\n\".join([page.extract_text() or \"\" for page in reader.pages])\n\n        # Chunking text\n        sentences = full_text.split(\". \")\n        chunks, chunk = [], \"\"\n        for sentence in sentences:\n            if len(chunk) + len(sentence) < 500:\n                chunk += sentence + \". \"\n            else:\n                chunks.append(chunk.strip())\n                chunk = sentence + \". \"\n        if chunk:\n            chunks.append(chunk.strip())\n\n        chunks = [c for c in chunks if c.strip()]  # remove empty\n\n        with st.spinner(\"\ud83d\udd0e Indexing to Qdrant...\"):\n            vectors = embed_model.encode(chunks).tolist()\n            points = [\n                PointStruct(\n                    id=str(uuid.uuid4()),\n                    vector=vectors[i],\n                    payload={\"text\": chunks[i], \"doc_id\": doc_id, \"file_name\": file_name}\n                ) for i in range(len(chunks))\n            ]\n\n            if COLLECTION_NAME not in [col.name for col in client_qdrant.get_collections().collections]:\n                client_qdrant.recreate_collection(\n                    collection_name=COLLECTION_NAME,\n                    vectors_config={\"size\": 384, \"distance\": \"Cosine\"}\n                )\n\n            client_qdrant.upsert(collection_name=COLLECTION_NAME, points=points)\n\n        # Save doc metadata\n        st.session_state.docs_uploaded.append({\"file_name\": file_name, \"doc_id\": doc_id})\n        st.session_state.chat_histories[doc_id] = []\n\n        # Toast-like success message\n        placeholder = st.empty()\n        placeholder.success(f\"\u2705 {file_name} uploaded and indexed.\")\n        time.sleep(2)\n        placeholder.empty()\n\n# --- Document Selector ---\n# Ensure only existing uploaded files are listed\ncurrent_uploaded_names = [file.name for file in uploaded_files] if uploaded_files else []\nst.session_state.docs_uploaded = [\n    doc for doc in st.session_state.docs_uploaded if doc[\"file_name\"] in current_uploaded_names\n]\ndoc_options = {doc[\"file_name\"]: doc[\"doc_id\"] for doc in st.session_state.docs_uploaded}\nselected_doc = st.selectbox(\"\ud83d\udcd1 Select a document to ask about:\", list(doc_options.keys()) if doc_options else [])\n\n# --- If a document is selected ---\nif selected_doc:\n    selected_doc_id = doc_options[selected_doc]\n    # --- Use document-specific key for question input ---\n    query_key = f\"query_{selected_doc_id}\"\n    query = st.text_input(\"\ud83d\udcac Ask a question:\", key=query_key)\n\n    # --- Answer logic ---\n    if st.button(\"\ud83d\udd0d Get Answer\") and query:\n        query_vector = embed_model.encode(query).tolist()\n\n        results = client_qdrant.search(\n            collection_name=COLLECTION_NAME,\n            query_vector=query_vector,\n            limit=3,\n            with_payload=True,\n            query_filter=Filter(must=[{\"key\": \"doc_id\", \"match\": {\"value\": selected_doc_id}}])\n        )\n\n        context = \"\\n\".join([r.payload[\"text\"] for r in results])\n\n        prompt = f\"\"\"\n        Use the context below to answer the user's question.\n\n        Context:\n        {context}\n\n        Question:\n        {query}\n        \"\"\"\n\n        model = genai.GenerativeModel(\"models/gemini-1.5-pro\")\n\n        with st.spinner(\"\ud83d\udcac Gemini is thinking...\"):\n            response = model.generate_content(\n                contents=prompt,\n                generation_config=genai.types.GenerationConfig(\n                    temperature=0.3,\n                    max_output_tokens=512\n                )\n            )\n\n        answer = response.text.strip()\n        st.session_state.chat_histories[selected_doc_id].append((query, answer))\n\n        # Typing animation\n        st.subheader(\"\ud83d\udcac Gemini's Answer (typing...)\")\n        placeholder = st.empty()\n        typed = \"\"\n        for char in answer:\n            typed += char\n            placeholder.markdown(typed)\n            time.sleep(0.01)\n\n    # --- Show history only if button clicked ---\n    show_history_now = st.button(\"\ud83d\udcdc View Chat History\")\n\n    if show_history_now:\n        history = st.session_state.chat_histories[selected_doc_id]\n        if history:\n            with st.expander(\"\ud83d\udcdc Previous Q&A History\", expanded=True):\n                for i, (q, a) in enumerate(history, 1):\n                    st.markdown(f\"**Q{i}:** {q}\")\n                    st.markdown(f\"**A{i}:** {a}\")\n                    st.markdown(\"---\")\n        else:\n            st.info(\"\u2139\ufe0f No chat history available for this document.\")\n\n    # --- Clear Chat ---\n    if st.button(\"\ud83e\uddf9 Clear Chat\"):\n        st.session_state.chat_histories[selected_doc_id] = []\n        st.rerun()",
+            "size": 6111
+          },
+          {
+            "path": "process(using ollama openchat).txt",
+            "content": "\u2705 STEP-BY-STEP SETUP GUIDE\n1. \u2705 Install Python\nMake sure you have Python 3.10 or higher installed.\n\nYou can check with:\n\nbash\nCopy\nEdit\npython --version\n2. \u2705 Create a Virtual Environment\nIn your project folder:\n\nbash\nCopy\nEdit\npython -m venv .venv\nActivate it:\n\nOn Windows:\n\nbash\nCopy\nEdit\n.venv\\Scripts\\activate\nOn macOS/Linux:\n\nbash\nCopy\nEdit\nsource .venv/bin/activate\n3. \u2705 Install Required Packages\nFirst, create a requirements.txt file:\n\ntxt\nCopy\nEdit\nstreamlit\nsentence-transformers\nPyPDF2\nqdrant-client\npython-dotenv\nrequests\nThen install:\n\nbash\nCopy\nEdit\npip install -r requirements.txt\n4. \u2705 Install and Run Ollama\nDownload Ollama from https://ollama.com/download and install it.\n\nAfter installation, pull OpenChat:\n\nbash\n\nollama pull openchat\nThen run OpenChat locally in a background terminal:\n\nbash\n\nollama run openchat\nLeave this running \u2014 this is your local language model API.\n\n5. \u2705 Set Up Environment Variables\nCreate a .env file in your project folder with this:\n\nenv\n\nQDRANT_URL=https://your-qdrant-cluster-url\nQDRANT_API_KEY=your-qdrant-api-key\nGet this from your Qdrant Cloud dashboard (or use local Qdrant if you're running it).\n\n6. \u2705 Run Your App\n\nEdit\nstreamlit run app.py",
+            "size": 1193
+          },
+          {
+            "path": "process.txt",
+            "content": "\u2705 How to Use Gemini API in a Streamlit PDF Q&A App (Step-by-Step)\n\ud83d\udd39 1. Create a Gemini API Key\nGo to https://makersuite.google.com/app/apikey\n\nClick \"Create API key\"\n\nCopy the key\n\n\ud83d\udd39 2. Create a .env file\nIn your project folder (e.g., D:\\chatgpt\\src), create a .env file and add:\n\nenv\nCopy code\nGEMINI_API_KEY=your-api-key-here\nQDRANT_URL=https://your-qdrant-url\nQDRANT_API_KEY=your-qdrant-api-key\nMake sure you use a fresh Gemini API key (from a different Google Cloud project if quota exceeded).\n\n\ud83d\udd39 3. Install Required Python Packages\nRun this in your terminal (inside your venv):\n\nbash\nCopy code\npip install streamlit google-generativeai python-dotenv PyPDF2 sentence-transformers qdrant-client\n\ud83d\udd39 4. Use This app.py for Gemini API\nReplace openai parts with google.generativeai like this:\n\npython\nCopy code\nimport os\nimport io\nimport time\nimport uuid\nimport streamlit as st\nimport google.generativeai as genai\nfrom dotenv import load_dotenv\nfrom PyPDF2 import PdfReader\nfrom sentence_transformers import SentenceTransformer\nfrom qdrant_client import QdrantClient\nfrom qdrant_client.models import Filter\nfrom qdrant_client.http.models import PointStruct\n\n# Load env\nload_dotenv()\ngenai.configure(api_key=os.getenv(\"GEMINI_API_KEY\"))\nQDRANT_URL = os.getenv(\"QDRANT_URL\")\nQDRANT_API_KEY = os.getenv(\"QDRANT_API_KEY\")\nCOLLECTION_NAME = \"session_docs\"\n\n# Clients\nclient_qdrant = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)\nembed_model = SentenceTransformer(\"all-MiniLM-L6-v2\")\n\nst.set_page_config(page_title=\"\ud83d\udcc4 Ask My PDF\")\nst.title(\"\ud83d\udcda Ask Your PDF Documents (Gemini)\")\n\nif \"docs_uploaded\" not in st.session_state:\n    st.session_state.docs_uploaded = []\nif \"chat_histories\" not in st.session_state:\n    st.session_state.chat_histories = {}\n\nuploaded_files = st.file_uploader(\"\ud83d\udcc2 Upload PDFs\", type=\"pdf\", accept_multiple_files=True)\nif uploaded_files:\n    for pdf_file in uploaded_files:\n        file_name = pdf_file.name\n        if any(doc[\"file_name\"] == file_name for doc in st.session_state.docs_uploaded):\n            continue\n        doc_id = str(uuid.uuid4())\n\n        with st.spinner(f\"\ud83d\udcd6 Extracting from {file_name}...\"):\n            reader = PdfReader(io.BytesIO(pdf_file.read()))\n            full_text = \"\\n\".join([page.extract_text() or \"\" for page in reader.pages])\n        sentences = full_text.split(\". \")\n        chunks, chunk = [], \"\"\n        for sentence in sentences:\n            if len(chunk) + len(sentence) < 500:\n                chunk += sentence + \". \"\n            else:\n                chunks.append(chunk.strip())\n                chunk = sentence + \". \"\n        if chunk:\n            chunks.append(chunk.strip())\n        chunks = [c for c in chunks if c.strip()]\n\n        with st.spinner(\"\ud83d\udd0e Indexing to Qdrant...\"):\n            vectors = embed_model.encode(chunks).tolist()\n            points = [PointStruct(\n                id=str(uuid.uuid4()),\n                vector=vectors[i],\n                payload={\"text\": chunks[i], \"doc_id\": doc_id, \"file_name\": file_name}\n            ) for i in range(len(chunks))]\n\n            if COLLECTION_NAME not in [col.name for col in client_qdrant.get_collections().collections]:\n                client_qdrant.recreate_collection(\n                    collection_name=COLLECTION_NAME,\n                    vectors_config={\"size\": 384, \"distance\": \"Cosine\"}\n                )\n\n            client_qdrant.upsert(collection_name=COLLECTION_NAME, points=points)\n\n        st.session_state.docs_uploaded.append({\"file_name\": file_name, \"doc_id\": doc_id})\n        st.session_state.chat_histories[doc_id] = []\n\n        st.success(f\"\u2705 {file_name} uploaded and indexed.\")\n\ncurrent_uploaded_names = [file.name for file in uploaded_files] if uploaded_files else []\nst.session_state.docs_uploaded = [\n    doc for doc in st.session_state.docs_uploaded if doc[\"file_name\"] in current_uploaded_names\n]\ndoc_options = {doc[\"file_name\"]: doc[\"doc_id\"] for doc in st.session_state.docs_uploaded}\nselected_doc = st.selectbox(\"\ud83d\udcd1 Select a document:\", list(doc_options.keys()) if doc_options else [])\n\nif selected_doc:\n    selected_doc_id = doc_options[selected_doc]\n    query_key = f\"query_{selected_doc_id}\"\n    query = st.text_input(\"\ud83d\udcac Ask a question:\", key=query_key)\n\n    if st.button(\"\ud83d\udd0d Get Answer\") and query:\n        query_vector = embed_model.encode(query).tolist()\n        results = client_qdrant.search(\n            collection_name=COLLECTION_NAME,\n            query_vector=query_vector,\n            limit=3,\n            with_payload=True,\n            query_filter=Filter(must=[{\"key\": \"doc_id\", \"match\": {\"value\": selected_doc_id}}])\n        )\n\n        context = \"\\n\".join([r.payload[\"text\"] for r in results])\n        prompt = f\"\"\"Use the context below to answer the user's question.\n\nContext:\n{context}\n\nQuestion:\n{query}\n\"\"\"\n\n        model = genai.GenerativeModel(\"models/gemini-1.5-pro\")\n\n        with st.spinner(\"\ud83d\udcac Gemini is thinking...\"):\n            try:\n                response = model.generate_content(\n                    contents=prompt,\n                    generation_config=genai.types.GenerationConfig(\n                        temperature=0.3,\n                        max_output_tokens=512\n                    )\n                )\n                answer = response.text.strip()\n            except Exception as e:\n                st.error(f\"\u26a0\ufe0f Gemini Error: {e}\")\n                answer = None\n\n        if answer:\n            st.session_state.chat_histories[selected_doc_id].append((query, answer))\n            st.subheader(\"\ud83d\udcac Gemini's Answer (typing...)\")\n            placeholder = st.empty()\n            typed = \"\"\n            for char in answer:\n                typed += char\n                placeholder.markdown(typed)\n                time.sleep(0.01)\n\n    if st.button(\"\ud83d\udcdc View Chat History\"):\n        history = st.session_state.chat_histories[selected_doc_id]\n        if history:\n            with st.expander(\"\ud83d\udcdc Previous Q&A History\", expanded=True):\n                for i, (q, a) in enumerate(history, 1):\n                    st.markdown(f\"**Q{i}:** {q}\")\n                    st.markdown(f\"**A{i}:** {a}\")\n                    st.markdown(\"---\")\n        else:\n            st.info(\"\u2139\ufe0f No chat history available for this document.\")\n\n    if st.button(\"\ud83e\uddf9 Clear Chat\"):\n        st.session_state.chat_histories[selected_doc_id] = []\n        st.rerun()\n\ud83d\udd1a Summary\nStep\tAction\n1\tCreate fresh API key on new project\n2\tAdd it to .env\n3\tInstall packages\n4\tUse updated app.py (above)\n5\tRun: streamlit run app.py\n\nHere is the complete requirements.txt for your Gemini-powered PDF Q&A Streamlit app:\n\nnginx\nCopy code\nstreamlit\ngoogle-generativeai\npython-dotenv\nPyPDF2\nsentence-transformers\nqdrant-client\nrequests\n\u2705 How to Use\nSave the file as requirements.txt in your project directory.\n\nInside your virtual environment, run:\n\nbash\nCopy code\npip install -r requirements.txt\nThis will install all dependencies needed to run your app.py with Gemini, Qdrant, and PDF support.",
+            "size": 6929
+          },
+          {
+            "path": "README.md",
+            "content": "# \ud83d\udcda Ask Your PDF Documents (Gemini-Powered)\n\nThis is a Streamlit app that lets you upload PDF documents and ask questions about them. It uses:\n- **Google Gemini** for answering questions,\n- **Qdrant** for vector storage and retrieval,\n- **Sentence Transformers** for generating embeddings.\n\n---\n\n## \ud83d\ude80 Features\n\n- Upload and index multiple PDFs.\n- Ask natural language questions about any document.\n- Answers are generated based on document content.\n- Chat history and Q&A stored per document.\n- Clear chat and re-index anytime.\n\n---\n\n## \ud83d\udee0 Requirements\n\n- Python 3.10 or later\n- Virtual environment (recommended)\n\n---\n\n## \ud83d\udce6 Installation\n\n1. **Clone the Repository or Download Files**\n\n```bash\ngit clone https://github.com/your-username/pdf-gemini-app.git\ncd pdf-gemini-app\n\nSet up a virtual environment\n\nbash\n\npython -m venv .venv\nsource .venv/bin/activate  # On Windows: .venv\\Scripts\\activate\n\nInstall dependencies\n\nbash\n\npip install -r requirements.txt\n\n\ud83d\udd11 Environment Variables\nCreate a .env file in the root folder and add:\n\nenv\nCopy code\nGEMINI_API_KEY=your_google_gemini_api_key\nQDRANT_URL=https://your-qdrant-cluster-url\nQDRANT_API_KEY=your_qdrant_api_key\nGet your Gemini API key from: https://makersuite.google.com/app/apikey\n\nUse Qdrant Cloud or run Qdrant locally.\n\n\u25b6\ufe0f Run the App\nbash\nCopy code\nstreamlit run app.py\n\n\ud83e\udde0 Example Use Case\nUpload a PDF (e.g., research paper, textbook).\n\nAsk: \"What is the main conclusion in section 3?\"\n\nGet a smart, context-based answer powered by Gemini!\n\n\ud83e\udd16 Tech Stack\nStreamlit UI\n\nGoogle Gemini (google-generativeai)\n\nQdrant Vector DB\n\nSentence Transformers (all-MiniLM-L6-v2)\n\nPyPDF2 for PDF parsing\n\n\ud83d\udca1 Tips\nGemini API has daily free tier limits. Be aware of rate limits: Rate Limits Docs\n\nFor better performance, keep PDF sizes reasonable (~50 pages max per file recommended).\n\n\ud83d\udcdc License\nMIT License\n\n\ud83d\ude4c Acknowledgements\nStreamlit\n\nGoogle Generative AI\n\nQdrant\n\nHugging Face\n\nyaml\n\n\n---\n\nLet me know if you'd like me to tailor it to Hugging Face or OpenChat/Ollama instead.\n\n\n\n\n\n",
+            "size": 2024
+          },
+          {
+            "path": "requirements.txt",
+            "content": "streamlit\nsentence-transformers\nPyPDF2\nqdrant-client\npython-dotenv\ntransformers\ntorch\ngoogle-generativeai\n",
+            "size": 106
+          }
+        ],
+        "readme": "# \ud83d\udcda Ask Your PDF Documents (Gemini-Powered)\n\nThis is a Streamlit app that lets you upload PDF documents and ask questions about them. It uses:\n- **Google Gemini** for answering questions,\n- **Qdrant** for vector storage and retrieval,\n- **Sentence Transformers** for generating embeddings.\n\n---\n\n## \ud83d\ude80 Features\n\n- Upload and index multiple PDFs.\n- Ask natural language questions about any document.\n- Answers are generated based on document content.\n- Chat history and Q&A stored per document.\n- Clear chat and re-index anytime.\n\n---\n\n## \ud83d\udee0 Requirements\n\n- Python 3.10 or later\n- Virtual environment (recommended)\n\n---\n\n## \ud83d\udce6 Installation\n\n1. **Clone the Repository or Download Files**\n\n```bash\ngit clone https://github.com/your-username/pdf-gemini-app.git\ncd pdf-gemini-app\n\nSet up a virtual environment\n\nbash\n\npython -m venv .venv\nsource .venv/bin/activate  # On Windows: .venv\\Scripts\\activate\n\nInstall dependencies\n\nbash\n\npip install -r requirements.txt\n\n\ud83d\udd11 Environment Variables\nCreate a .env file in the root folder and add:\n\nenv\nCopy code\nGEMINI_API_KEY=your_google_gemini_api_key\nQDRANT_URL=https://your-qdrant-cluster-url\nQDRANT_API_KEY=your_qdrant_api_key\nGet your Gemini API key from: https://makersuite.google.com/app/apikey\n\nUse Qdrant Cloud or run Qdrant locally.\n\n\u25b6\ufe0f Run the App\nbash\nCopy code\nstreamlit run app.py\n\n\ud83e\udde0 Example Use Case\nUpload a PDF (e.g., research paper, textbook).\n\nAsk: \"What is the main conclusion in section 3?\"\n\nGet a smart, context-based answer powered by Gemini!\n\n\ud83e\udd16 Tech Stack\nStreamlit UI\n\nGoogle Gemini (google-generativeai)\n\nQdrant Vector DB\n\nSentence Transformers (all-MiniLM-L6-v2)\n\nPyPDF2 for PDF parsing\n\n\ud83d\udca1 Tips\nGemini API has daily free tier limits. Be aware of rate limits: Rate Limits Docs\n\nFor better performance, keep PDF sizes reasonable (~50 pages max per file recommended).\n\n\ud83d\udcdc License\nMIT License\n\n\ud83d\ude4c Acknowledgements\nStreamlit\n\nGoogle Generative AI\n\nQdrant\n\nHugging Face\n\nyaml\n\n\n---\n\nLet me know if you'd like me to tailor it to Hugging Face or OpenChat/Ollama instead.\n\n\n\n\n\n",
+        "readme_path": "README.md",
+        "langs": {
+          ".py": 1,
+          ".txt": 3,
+          ".md": 1
+        },
+        "dependencies": {
+          "python": [
+            "google-generativeai",
+            "streamlit",
+            "sentence-transformers",
+            "PyPDF2",
+            "python-dotenv"
+          ]
+        },
+        "missing": [
+          "Missing: LICENSE",
+          "Missing: CONTRIBUTING.md",
+          "Missing: CODE_OF_CONDUCT.md",
+          "Missing: Tests",
+          "Missing: Documentation",
+          "Missing: Examples",
+          "Missing: CI/CD",
+          "Missing: .gitignore",
+          "README missing: Usage section",
+          "README missing: Contributing section"
+        ],
+        "project_type": "Python Library",
+        "structure": {
+          "has_src": false,
+          "has_tests": false,
+          "has_docs": false,
+          "has_examples": false,
+          "has_docker": false,
+          "has_ci": false,
+          "directory_tree": {}
+        },
+        "best_practices": {
+          "has_changelog": false,
+          "has_security_policy": false,
+          "has_pull_request_template": false,
+          "has_issue_templates": false,
+          "has_code_of_conduct": false,
+          "has_badges": false
+        },
+        "total_files": 5,
+        "repo_size": 16363
+      },
+      "repo_url": "https://github.com/subrahmanyam024/RAG"
+    }
+  }
+}
