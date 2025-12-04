@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Agent Repository Assistant</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="app" class="app">
+        <!-- Loading State -->
+        <div id="loading" class="loading-overlay" style="display:none;">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+
+        <!-- Auth Pages -->
+        <div id="auth-container" class="auth-container">
+            <!-- Login Page -->
+            <div id="login-page" class="page active">
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <i class="fas fa-code-branch"></i>
+                        <h1>Repository Assistant</h1>
+                        <p>AI-Powered Documentation Generator</p>
+                    </div>
+
+                    <form id="login-form" class="auth-form">
+                        <div class="form-group">
+                            <label for="login-username">Username</label>
+                            <input type="text" id="login-username" placeholder="Enter your username" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" placeholder="Enter your password" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </button>
+                    </form>
+
+                    <div class="auth-divider">
+                        <span>New here?</span>
+                    </div>
+
+                    <button type="button" class="btn btn-secondary btn-block" onclick="switchPage('register')">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+
+                    <div id="login-error" class="alert alert-danger" style="display:none;"></div>
+                </div>
+            </div>
+
+            <!-- Register Page -->
+            <div id="register-page" class="page">
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <i class="fas fa-code-branch"></i>
+                        <h1>Create Account</h1>
+                        <p>Join Repository Assistant</p>
+                    </div>
+
+                    <form id="register-form" class="auth-form">
+                        <div class="form-group">
+                            <label for="register-username">Username</label>
+                            <input type="text" id="register-username" placeholder="Choose a username" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="register-email">Email</label>
+                            <input type="email" id="register-email" placeholder="Enter your email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="register-password">Password</label>
+                            <input type="password" id="register-password" placeholder="Create a password (min 6 chars)" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-user-plus"></i> Register
+                        </button>
+                    </form>
+
+                    <button type="button" class="btn btn-secondary btn-block" onclick="switchPage('login')">
+                        <i class="fas fa-sign-in-alt"></i> Already have an account? Login
+                    </button>
+
+                    <div id="register-error" class="alert alert-danger" style="display:none;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Application -->
+        <div id="main-app" class="main-app" style="display:none;">
+            <!-- Navigation Bar -->
+            <nav class="navbar">
+                <div class="navbar-brand">
+                    <i class="fas fa-code-branch"></i>
+                    <span>Repository Assistant</span>
+                </div>
+
+                <div class="navbar-menu">
+                    <a href="#" onclick="switchMainPage('dashboard')" class="nav-link active" data-page="dashboard">
+                        <i class="fas fa-th-large"></i> Dashboard
+                    </a>
+                    <a href="#" onclick="switchMainPage('projects')" class="nav-link" data-page="projects">
+                        <i class="fas fa-folder"></i> Projects
+                    </a>
+                    <a href="#" onclick="switchMainPage('generate')" class="nav-link" data-page="generate">
+                        <i class="fas fa-pen-fancy"></i> Generate
+                    </a>
+
+                    <a href="#" onclick="switchMainPage('articles')" class="nav-link" data-page="articles">
+                        <i class="fas fa-newspaper"></i> Articles
+                    </a>
+                </div>
+
+                <div class="navbar-right">
+                    <span class="user-info">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="username-display">User</span>
+                    </span>
+                    <button class="btn btn-sm btn-outline" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Dashboard Page -->
+                <div id="dashboard-page" class="page-content active">
+                    <div class="page-header">
+                        <h1><i class="fas fa-th-large"></i> Dashboard</h1>
+                        <p>Welcome to Repository Assistant</p>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background-color: #3498db;">
+                                <i class="fas fa-folder"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="total-projects">0</div>
+                                <div class="stat-label">Total Projects</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background-color: #2ecc71;">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="total-articles">0</div>
+                                <div class="stat-label">Generated Articles</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background-color: #e74c3c;">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="projects-analyzed">0</div>
+                                <div class="stat-label">Analyzed Projects</div>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background-color: #f39c12;">
+                                <i class="fas fa-history"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-value" id="recent-activity">-</div>
+                                <div class="stat-label">Last Activity</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quick-actions">
+                        <h2>Quick Actions</h2>
+                        <div class="action-buttons">
+                            <button class="action-btn" onclick="switchMainPage('projects')">
+                                <i class="fas fa-plus-circle"></i>
+                                <span>Create New Project</span>
+                            </button>
+                            <button class="action-btn" onclick="switchMainPage('generate')">
+                                <i class="fas fa-pen-fancy"></i>
+                                <span>Generate Article</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projects Page -->
+                <div id="projects-page" class="page-content">
+                    <div class="page-header">
+                        <h1><i class="fas fa-folder"></i> Projects</h1>
+                        <p>Manage your repositories and analysis projects</p>
+                    </div>
+
+                    <div class="projects-controls">
+                        <button class="btn btn-primary" onclick="showCreateProjectModal()">
+                            <i class="fas fa-plus"></i> New Project
+                        </button>
+                        <div class="search-box">
+                            <input type="text" id="project-search" placeholder="Search projects...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+
+                    <div id="projects-list" class="projects-grid">
+                        <div class="empty-state">
+                            <i class="fas fa-folder-open"></i>
+                            <p>No projects yet</p>
+                            <button class="btn btn-secondary" onclick="showCreateProjectModal()">Create First Project</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Generate Page -->
+                <div id="generate-page" class="page-content">
+                    <div class="page-header">
+                        <h1><i class="fas fa-pen-fancy"></i> Generate Article</h1>
+                        <p>Create publication-ready articles from your repositories</p>
+                    </div>
+
+                    <div class="generate-container">
+                        <div class="generate-sidebar">
+                            <h3>Select Project</h3>
+                            <select id="generate-project-select" class="form-control" onchange="loadProjectForGeneration()">
+                                <option value="">Choose a project...</option>
+                            </select>
+
+                            <div id="project-info" class="project-info" style="display:none;">
+                                <h4 id="project-info-name"></h4>
+                                <p id="project-info-url"></p>
+                                <div class="info-stats">
+                                    <span><i class="fas fa-file"></i> <span id="info-files">0</span> files</span>
+                                    <span><i class="fas fa-code"></i> <span id="info-langs">0</span> languages</span>
+                                </div>
+                                
+                                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+                                    <h5 style="margin-bottom: 10px;">Languages Used:</h5>
+                                    <div id="info-languages-list" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
+                                        <span style="color: #999;">Loading...</span>
+                                    </div>
+                                    
+                                    <h5 style="margin-bottom: 10px;">Repository Structure:</h5>
+                                    <div id="info-repo-structure" style="background: #f5f5f5; padding: 15px; border-radius: 6px; font-family: monospace; font-size: 13px; max-height: 300px; overflow-y: auto;">
+                                        <span style="color: #999;">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="generate-main">
+                            <div class="form-section">
+                                <h3>Generation Instructions</h3>
+                                <textarea id="generation-instructions" class="form-control textarea-lg" placeholder="Describe what kind of article you want:&#10;- Write a technical blog post about features&#10;- Create comprehensive documentation&#10;- Generate getting started guide"></textarea>
+                            </div>
+
+                            <div class="form-section">
+                                <h3>Project Description (Optional)</h3>
+                                <textarea id="generation-description" class="form-control" placeholder="Add any additional context about your project"></textarea>
+                            </div>
+
+                            <div class="form-actions">
+                                <button class="btn btn-secondary" onclick="generateOutline()" id="outline-btn">
+                                    <i class="fas fa-list"></i> Generate Outline
+                                </button>
+                                <button class="btn btn-primary" onclick="generateArticle()" id="article-btn">
+                                    <i class="fas fa-pen-fancy"></i> Generate Full Article
+                                </button>
+                            </div>
+
+                            <div id="generation-output" style="display:none;">
+                                <div id="outline-output" style="display:none;">
+                                    <h3>Article Outline</h3>
+                                    <div class="output-box" id="outline-content"></div>
+                                </div>
+
+                                <div id="article-output" style="display:none;">
+                                    <h3>Generated Article</h3>
+                                    <div class="output-box markdown-content" id="article-content"></div>
+                                    <div class="download-actions">
+                                        <button class="btn btn-secondary" onclick="downloadArticle('markdown')">
+                                            <i class="fas fa-download"></i> Download as Markdown
+                                        </button>
+                                        <button class="btn btn-secondary" onclick="downloadArticle('json')">
+                                            <i class="fas fa-download"></i> Download as JSON
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Articles Page -->
+                <div id="articles-page" class="page-content">
+                    <div class="page-header">
+                        <h1><i class="fas fa-newspaper"></i> Generated Articles</h1>
+                        <p>View and manage your generated articles</p>
+                    </div>
+
+                    <div id="articles-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+                        <div class="empty-state">
+                            <i class="fas fa-file-alt"></i>
+                            <p>No articles generated yet</p>
+                            <button class="btn btn-secondary" onclick="switchMainPage('generate')">Generate First Article</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="create-project-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create New Project</h2>
+                <button class="modal-close" onclick="closeModal('create-project-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="create-project-form">
+                    <div class="form-group">
+                        <label for="project-name">Project Name</label>
+                        <input type="text" id="project-name" class="form-control" placeholder="My Awesome Project" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="project-url">GitHub Repository URL</label>
+                        <input type="url" id="project-url" class="form-control" placeholder="https://github.com/username/repo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="project-description">Description (Optional)</label>
+                        <textarea id="project-description" class="form-control" placeholder="Brief description of your project"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('create-project-modal')">Cancel</button>
+                <button type="submit" form="create-project-form" class="btn btn-primary">Create Project</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

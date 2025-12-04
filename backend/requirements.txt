@@ -1,0 +1,26 @@
+# Flask and CORS
+Flask==2.3.0
+Flask-CORS==4.0.0
+Flask-JWT-Extended==4.4.4
+
+# Existing project dependencies
+qdrant-client==1.6.0
+cohere==5.20.0
+requests
+python-dotenv
+langchain-core
+langchain-text-splitters
+tqdm
+tenacity
+pydantic
+sentence-transformers
+
+# Orchestration
+langgraph
+
+# Development
+python-dateutil
+pytz
+
+# Optional
+gunicorn==21.2.0

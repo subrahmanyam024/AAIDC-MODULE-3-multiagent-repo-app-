@@ -31,14 +31,15 @@ def load_files_from_directory(directory, extensions=(".py", ".md", ".txt", ".jso
                     continue
                     
                 path = os.path.join(root, fname)
-                rel_path = os.path.relpath(path, directory)
+                rel_path = os.path.relpath(path, directory).replace("\\", "/")
                 
                 if should_exclude(rel_path):
                     continue
                 
                 if fname.lower().endswith(extensions) or fname in ('README', 'LICENSE', 'Dockerfile', 'Makefile', '.gitignore'):
                     try:
-                        if os.path.getsize(path) > max_file_size:
+                        file_size = os.path.getsize(path)
+                        if file_size > max_file_size:
                             continue
                             
                         with open(path, "r", encoding="utf-8", errors="ignore") as f:
@@ -47,7 +48,8 @@ def load_files_from_directory(directory, extensions=(".py", ".md", ".txt", ".jso
                         files.append({
                             "path": rel_path,
                             "content": content,
-                            "size": len(content)
+                            "size": file_size,
+                            "content_size": len(content)
                         })
                     except Exception:
                         continue

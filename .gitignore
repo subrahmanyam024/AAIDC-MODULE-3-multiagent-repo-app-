@@ -74,7 +74,17 @@ yarn-error.log
 # Docker
 *.log
 
+# Application Data (user-specific)
+backend/data/
+logs/
+*.log
+
 # Temporary files
 *.tmp
 *.bak
 *.swp
+
+# OS specific
+.AppleDouble
+.LSOverride
+._*

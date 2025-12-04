@@ -12,6 +12,7 @@ def analyze_repo(path_or_zip: str, workdir="./temp_repo"):
         repo_dir = path_or_zip
 
     files = load_files_from_directory(repo_dir)
+    print(f"[DEBUG] Loaded {len(files)} files from {repo_dir}")
     
     readme = next((f["content"] for f in files if f["path"].lower().startswith("readme")), "")
     readme_path = next((f["path"] for f in files if f["path"].lower().startswith("readme")), None)
@@ -25,7 +26,7 @@ def analyze_repo(path_or_zip: str, workdir="./temp_repo"):
     dependencies = extract_dependencies(files)
     missing_sections = check_missing_sections(files, readme)
     project_type = detect_project_type(files, langs)
-    repo_structure = analyze_structure(files)
+    repo_structure = analyze_structure(files, repo_dir)
     best_practices = check_best_practices(files)
     
     return {
@@ -39,7 +40,7 @@ def analyze_repo(path_or_zip: str, workdir="./temp_repo"):
         "project_type": project_type,
         "structure": repo_structure,
         "best_practices": best_practices,
-        "total_files": len(files),
+        "total_files": len(repo_structure.get("files", [])),
         "repo_size": sum(f.get("size", 0) for f in files)
     }
 
@@ -113,7 +114,8 @@ def detect_project_type(files, langs):
         else:
             return "Unknown"
 
-def analyze_structure(files):
+def analyze_structure(files, repo_dir):
+    """Analyze the complete repository structure"""
     structure = {
         "has_src": False,
         "has_tests": False,
@@ -121,7 +123,9 @@ def analyze_structure(files):
         "has_examples": False,
         "has_docker": False,
         "has_ci": False,
-        "directory_tree": {}
+        "directory_tree": build_directory_tree(files),
+        "files": [],
+        "directories": []
     }
     
     paths = {f["path"].lower() for f in files}
@@ -133,7 +137,52 @@ def analyze_structure(files):
     structure["has_docker"] = any("dockerfile" in p or "docker-compose" in p for p in paths)
     structure["has_ci"] = any(".github/workflows" in p or ".gitlab-ci" in p or ".travis" in p or "jenkinsfile" in p for p in paths)
     
+    # Build files and directories list
+    processed_dirs = set()
+    for file in files:
+        path = file["path"]
+        name = os.path.basename(path)
+        ext = os.path.splitext(path)[1]
+        
+        structure["files"].append({
+            "path": path,
+            "name": name,
+            "extension": ext,
+            "size": file.get("size", 0),
+            "content_length": file.get("content_size", 0)
+        })
+        
+        # Extract directories
+        dir_path = os.path.dirname(path)
+        if dir_path and dir_path not in processed_dirs:
+            structure["directories"].append(dir_path)
+            processed_dirs.add(dir_path)
+    
     return structure
+
+def build_directory_tree(files):
+    """Build a directory tree structure from files"""
+    tree = {}
+    
+    print(f"[DEBUG] build_directory_tree called with {len(files)} files")
+    
+    for file in files:
+        path = file["path"].replace("\\", "/")
+        parts = path.split("/")
+        
+        current = tree
+        for part in parts[:-1]:
+            if part not in current:
+                current[part] = {}
+            current = current[part]
+        
+        filename = parts[-1]
+        size = file.get("size", 0)
+        size_str = f" {size}B" if size > 0 else ""
+        current[filename] = f"FILE{size_str}"
+    
+    print(f"[DEBUG] directory_tree built with {len(tree)} root items")
+    return tree
 
 def check_missing_sections(files, readme):
     paths = {f["path"].lower() for f in files}
