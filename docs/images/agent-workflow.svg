@@ -5,7 +5,6 @@
       .agent-box { fill: #2ecc71; stroke: #2c3e50; stroke-width: 2; }
       .result-box { fill: #9b59b6; stroke: #2c3e50; stroke-width: 2; }
       .text-white { font-family: Arial, sans-serif; font-size: 13px; fill: white; text-anchor: middle; font-weight: bold; }
-      .text-dark { font-family: Arial, sans-serif; font-size: 11px; fill: #2c3e50; text-anchor: middle; }
       .title { font-family: Arial, sans-serif; font-size: 22px; font-weight: bold; fill: #2c3e50; text-anchor: middle; }
       .arrow { stroke: #2c3e50; stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); }
     </style>
@@ -24,7 +23,7 @@
 
   <rect x="350" y="160" width="300" height="60" class="step-box" rx="5"/>
   <text x="500" y="185" class="text-white">2. Download Repository</text>
-  <text x="500" y="205" class="text-white">(Git Clone & Parse)</text>
+  <text x="500" y="205" class="text-white">(Git Clone &amp; Parse)</text>
 
   <path d="M 500 220 L 500 260" class="arrow"/>
 
@@ -65,7 +64,10 @@
   <text x="820" y="695" class="text-white">Enhances and</text>
   <text x="820" y="715" class="text-white">refines content</text>
 
-  <path d="M 180 730 L 180 760 L 500 760 L 820 760 L 820 730" class="arrow"/>
+  <path d="M 180 730 L 180 760" class="arrow"/>
+  <path d="M 500 730 L 500 760" class="arrow"/>
+  <path d="M 820 730 L 820 760" class="arrow"/>
+  <path d="M 180 760 L 820 760" class="arrow"/>
   <path d="M 500 760 L 500 790" class="arrow"/>
 
   <rect x="350" y="790" width="300" height="70" class="result-box" rx="5"/>
