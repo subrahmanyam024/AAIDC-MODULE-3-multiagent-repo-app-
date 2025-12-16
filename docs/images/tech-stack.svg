@@ -1,5 +1,4 @@
 <svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
-  <!-- Define styles -->
   <defs>
     <style>
       .layer-bg { fill: #ecf0f1; stroke: #95a5a6; stroke-width: 1; }
@@ -13,10 +12,9 @@
     </style>
   </defs>
 
-  <!-- Title -->
   <text x="500" y="35" class="title">Technology Stack</text>
 
-  <!-- Layer 1: Frontend -->
+  <!-- Frontend Layer -->
   <rect x="20" y="60" width="960" height="100" class="layer-bg" rx="5"/>
   <text x="40" y="80" class="layer-title">Frontend Layer</text>
 
@@ -38,11 +36,11 @@
 
   <rect x="730" y="95" width="220" height="55" class="tech-box" rx="3"/>
   <text x="840" y="115" class="text">WCAG 2.1 A11y</text>
-  <text x="840" y="135" class="text" font-size="10">Keyboard Nav + Screen Reader</text>
+  <text x="840" y="135" class="text" font-size="10">Keyboard + Screen Reader</text>
 
-  <!-- Layer 2: Backend & Orchestration -->
+  <!-- Backend Layer -->
   <rect x="20" y="180" width="960" height="130" class="layer-bg" rx="5"/>
-  <text x="40" y="200" class="layer-title">Backend & Orchestration Layer</text>
+  <text x="40" y="200" class="layer-title">Backend &amp; Orchestration Layer</text>
 
   <rect x="50" y="215" width="130" height="85" class="lang-box" rx="3"/>
   <text x="115" y="240" class="text">Python 3.10</text>
@@ -62,21 +60,21 @@
   <rect x="530" y="215" width="130" height="85" class="tech-box" rx="3"/>
   <text x="595" y="240" class="text">LangChain</text>
   <text x="595" y="260" class="text" font-size="10">Text Processing</text>
-  <text x="595" y="280" class="text" font-size="10">&amp; Utilities</text>
+  <text x="595" y="280" class="text" font-size="10">+ Utilities</text>
 
   <rect x="690" y="215" width="230" height="85" class="tech-box" rx="3"/>
-  <text x="805" y="240" class="text">JWT &amp; Auth</text>
+  <text x="805" y="240" class="text">JWT + Auth</text>
   <text x="805" y="260" class="text" font-size="10">Flask-JWT-Extended</text>
   <text x="805" y="280" class="text" font-size="10">Secure Token Auth</text>
 
-  <!-- Layer 3: AI/ML Services -->
+  <!-- AI/ML Layer -->
   <rect x="20" y="330" width="960" height="110" class="layer-bg" rx="5"/>
   <text x="40" y="350" class="layer-title">AI/ML Services Layer</text>
 
   <rect x="50" y="365" width="180" height="70" class="tech-box" rx="3"/>
   <text x="140" y="390" class="text">Cohere LLM</text>
   <text x="140" y="410" class="text" font-size="10">Text Generation</text>
-  <text x="140" y="425" class="text" font-size="10">&amp; Analysis</text>
+  <text x="140" y="425" class="text" font-size="10">+ Analysis</text>
 
   <rect x="280" y="365" width="180" height="70" class="tech-box" rx="3"/>
   <text x="370" y="390" class="text">Jina AI</text>
@@ -91,9 +89,9 @@
   <rect x="740" y="365" width="200" height="70" class="tech-box" rx="3"/>
   <text x="840" y="390" class="text">7 Specialized</text>
   <text x="840" y="410" class="text" font-size="10">AI Agents</text>
-  <text x="840" y="425" class="text" font-size="10">(Analysis, Generation, etc)</text>
+  <text x="840" y="425" class="text" font-size="10">(Analysis, Generation)</text>
 
-  <!-- Layer 4: Data & Storage -->
+  <!-- Data &amp; Storage Layer -->
   <rect x="20" y="460" width="960" height="110" class="layer-bg" rx="5"/>
   <text x="40" y="480" class="layer-title">Data &amp; Storage Layer</text>
 
@@ -117,7 +115,7 @@
   <text x="840" y="540" class="text" font-size="10">GitHub Repos,</text>
   <text x="840" y="555" class="text" font-size="10">Web Search</text>
 
-  <!-- Layer 5: Deployment -->
+  <!-- Deployment Layer -->
   <rect x="20" y="590" width="960" height="90" class="layer-bg" rx="5"/>
   <text x="40" y="610" class="layer-title">Deployment &amp; Infrastructure</text>
 
@@ -136,5 +134,4 @@
   <rect x="740" y="625" width="200" height="50" class="tech-box" rx="3"/>
   <text x="840" y="650" class="text">Gunicorn</text>
   <text x="840" y="665" class="text" font-size="10">WSGI Server</text>
-
 </svg>
