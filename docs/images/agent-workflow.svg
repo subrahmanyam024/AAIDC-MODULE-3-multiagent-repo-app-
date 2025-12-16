@@ -1,0 +1,121 @@
+<svg viewBox="0 0 1000 900" xmlns="http://www.w3.org/2000/svg">
+  <!-- Define styles -->
+  <defs>
+    <style>
+      .step-box { fill: #3498db; stroke: #2c3e50; stroke-width: 2; }
+      .decision-box { fill: #f39c12; stroke: #2c3e50; stroke-width: 2; }
+      .agent-box { fill: #2ecc71; stroke: #2c3e50; stroke-width: 2; }
+      .result-box { fill: #9b59b6; stroke: #2c3e50; stroke-width: 2; }
+      .text-white { font-family: Arial, sans-serif; font-size: 13px; fill: white; text-anchor: middle; font-weight: bold; }
+      .text-label { font-family: Arial, sans-serif; font-size: 12px; fill: #2c3e50; text-anchor: middle; }
+      .title { font-family: Arial, sans-serif; font-size: 22px; font-weight: bold; fill: #2c3e50; text-anchor: middle; }
+      .arrow { stroke: #2c3e50; stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); }
+      .dashed-arrow { stroke: #2c3e50; stroke-width: 2; stroke-dasharray: 5,5; fill: none; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#2c3e50" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="500" y="35" class="title">Multi-Agent Processing Pipeline</text>
+
+  <!-- Step 1: Input -->
+  <rect x="350" y="60" width="300" height="60" class="step-box" rx="5"/>
+  <text x="500" y="85" class="text-white">1. Repository Input</text>
+  <text x="500" y="105" class="text-white">(GitHub URL)</text>
+
+  <!-- Arrow -->
+  <path d="M 500 120 L 500 160" class="arrow"/>
+
+  <!-- Step 2: Download & Parse -->
+  <rect x="350" y="160" width="300" height="60" class="step-box" rx="5"/>
+  <text x="500" y="185" class="text-white">2. Download Repository</text>
+  <text x="500" y="205" class="text-white">(Git Clone & File Parsing)</text>
+
+  <!-- Arrow -->
+  <path d="M 500 220 L 500 260" class="arrow"/>
+
+  <!-- Step 3: Repository Analyzer Agent -->
+  <rect x="350" y="260" width="300" height="80" class="agent-box" rx="5"/>
+  <text x="500" y="285" class="text-white" font-size="14">🤖 Repository Analyzer</text>
+  <text x="500" y="310" class="text-white" font-size="12">Extracts structure, languages,</text>
+  <text x="500" y="330" class="text-white" font-size="12">dependencies, and metrics</text>
+
+  <!-- Arrow -->
+  <path d="M 500 340 L 500 380" class="arrow"/>
+
+  <!-- Step 4: Text Splitting & Embedding -->
+  <rect x="350" y="380" width="300" height="80" class="agent-box" rx="5"/>
+  <text x="500" y="405" class="text-white" font-size="14">🤖 Embedding Agent</text>
+  <text x="500" y="430" class="text-white" font-size="12">Chunks text & generates</text>
+  <text x="500" y="450" class="text-white" font-size="12">vector embeddings</text>
+
+  <!-- Arrow -->
+  <path d="M 500 460 L 500 500" class="arrow"/>
+
+  <!-- Step 5: Vector Storage -->
+  <rect x="350" y="500" width="300" height="60" class="step-box" rx="5"/>
+  <text x="500" y="525" class="text-white">5. Store in Qdrant</text>
+  <text x="500" y="545" class="text-white">(Vector Database)</text>
+
+  <!-- Arrow -->
+  <path d="M 500 560 L 500 600" class="arrow"/>
+
+  <!-- Parallel Processing Section -->
+  <text x="500" y="620" class="title" font-size="16">Parallel Analysis & Generation</text>
+
+  <!-- Left Branch: Metadata -->
+  <rect x="50" y="650" width="220" height="80" class="agent-box" rx="5"/>
+  <text x="160" y="675" class="text-white" font-size="13">🤖 Metadata Agent</text>
+  <text x="160" y="695" class="text-white" font-size="11">Suggests titles,</text>
+  <text x="160" y="715" class="text-white" font-size="11">tags, and summaries</text>
+
+  <!-- Middle Branch: Article Generation -->
+  <rect x="390" y="650" width="220" height="80" class="agent-box" rx="5"/>
+  <text x="500" y="675" class="text-white" font-size="13">🤖 Article Generator</text>
+  <text x="500" y="695" class="text-white" font-size="11">Creates outlines</text>
+  <text x="500" y="715" class="text-white" font-size="11">and full articles</text>
+
+  <!-- Right Branch: Content Improvement -->
+  <rect x="730" y="650" width="220" height="80" class="agent-box" rx="5"/>
+  <text x="840" y="675" class="text-white" font-size="13">🤖 Content Improver</text>
+  <text x="840" y="695" class="text-white" font-size="11">Enhances and refines</text>
+  <text x="840" y="715" class="text-white" font-size="11">generated content</text>
+
+  <!-- Arrows from parallel branches -->
+  <path d="M 160 650 L 160 630 L 500 630 L 160 650" class="dashed-arrow"/>
+  <path d="M 500 650 L 500 630" class="dashed-arrow"/>
+  <path d="M 840 650 L 840 630 L 500 630 L 840 650" class="dashed-arrow"/>
+
+  <!-- Convergence arrow -->
+  <path d="M 500 630 L 500 600" class="arrow"/>
+
+  <!-- Arrow down from parallel section -->
+  <path d="M 160 730 L 160 770 L 500 770 L 840 770 L 840 730" class="arrow" fill="none"/>
+  <path d="M 500 770 L 500 790" class="arrow"/>
+
+  <!-- Final Step: Review & Output -->
+  <rect x="350" y="790" width="300" height="70" class="result-box" rx="5"/>
+  <text x="500" y="815" class="text-white" font-size="14">✓ Final Output</text>
+  <text x="500" y="835" class="text-white" font-size="11">Reviewed article (Markdown/JSON)</text>
+
+  <!-- Legend -->
+  <g>
+    <rect x="30" y="880" width="940" height="18" fill="none" stroke="#bdc3c7" stroke-width="1" stroke-dasharray="3,3"/>
+    <rect x="40" y="885" width="12" height="8" class="step-box"/>
+    <text x="60" y="891" class="text-label" text-anchor="start">Process Step</text>
+    
+    <rect x="200" y="885" width="12" height="8" class="agent-box"/>
+    <text x="220" y="891" class="text-label" text-anchor="start">AI Agent</text>
+    
+    <rect x="360" y="885" width="12" height="8" class="decision-box"/>
+    <text x="380" y="891" class="text-label" text-anchor="start">Decision Point</text>
+    
+    <rect x="550" y="885" width="12" height="8" class="result-box"/>
+    <text x="570" y="891" class="text-label" text-anchor="start">Final Result</text>
+    
+    <line x1="750" y1="889" x2="762" y2="889" class="dashed-arrow" stroke="#2c3e50" stroke-width="1.5"/>
+    <text x="780" y="891" class="text-label" text-anchor="start">Parallel Execution</text>
+  </g>
+</svg>

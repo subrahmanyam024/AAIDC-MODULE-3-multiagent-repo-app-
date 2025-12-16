@@ -241,4 +241,25 @@ All should return 200 OK.
 
 ---
 
+## Testing
+
+Run the test suite to verify everything works correctly:
+
+```bash
+# Run all tests
+pytest tests/ -v
+
+# Run with coverage report
+pytest tests/ -v --cov=backend --cov-report=html
+
+# Run specific test types
+pytest tests/unit/ -v            # Unit tests
+pytest tests/integration/ -v     # Integration tests
+pytest tests/e2e/ -v             # End-to-end tests
+```
+
+See [Testing Strategy](docs/TESTING.md) for detailed information.
+
+---
+
 **Need Help?** See MIGRATION_GUIDE.md for detailed troubleshooting.

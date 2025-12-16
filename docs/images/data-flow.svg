@@ -1,0 +1,153 @@
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Define styles -->
+  <defs>
+    <style>
+      .entity { fill: #e8f4f8; stroke: #2c3e50; stroke-width: 2; }
+      .process { fill: #3498db; stroke: #2c3e50; stroke-width: 2; }
+      .storage { fill: #2ecc71; stroke: #2c3e50; stroke-width: 2; }
+      .external { fill: #e74c3c; stroke: #2c3e50; stroke-width: 2; }
+      .text { font-family: Arial, sans-serif; font-size: 12px; fill: white; text-anchor: middle; font-weight: bold; }
+      .label { font-family: Arial, sans-serif; font-size: 11px; fill: #2c3e50; text-anchor: middle; }
+      .title { font-family: Arial, sans-serif; font-size: 20px; font-weight: bold; fill: #2c3e50; text-anchor: middle; }
+      .arrow { stroke: #2c3e50; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .flow-label { font-family: Arial, sans-serif; font-size: 10px; fill: #7f8c8d; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#2c3e50" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="600" y="30" class="title">Data Flow Diagram - Repository Analysis Pipeline</text>
+
+  <!-- Row 1: External Sources -->
+  <rect x="50" y="70" width="120" height="60" class="external" rx="5"/>
+  <text x="110" y="100" class="text">GitHub</text>
+  <text x="110" y="118" class="text">Repository</text>
+
+  <rect x="250" y="70" width="120" height="60" class="external" rx="5"/>
+  <text x="310" y="100" class="text">Cohere</text>
+  <text x="310" y="118" class="text">API</text>
+
+  <rect x="450" y="70" width="120" height="60" class="external" rx="5"/>
+  <text x="510" y="100" class="text">Jina</text>
+  <text x="510" y="118" class="text">Embeddings</text>
+
+  <!-- Arrow down -->
+  <path d="M 110 130 L 110 170" class="arrow"/>
+  <path d="M 310 130 L 310 170" class="arrow"/>
+  <path d="M 510 130 L 510 170" class="arrow"/>
+
+  <!-- Row 2: Ingestion Processes -->
+  <rect x="50" y="170" width="120" height="70" class="process" rx="5"/>
+  <text x="110" y="195" class="text">Download</text>
+  <text x="110" y="213" class="text">Repository</text>
+  <text x="110" y="231" class="text">(Git Clone)</text>
+
+  <rect x="250" y="170" width="120" height="70" class="process" rx="5"/>
+  <text x="310" y="195" class="text">Load &</text>
+  <text x="310" y="213" class="text">Parse Files</text>
+  <text x="310" y="231" class="text">(Analysis)</text>
+
+  <rect x="450" y="170" width="120" height="70" class="process" rx="5"/>
+  <text x="510" y="195" class="text">Generate</text>
+  <text x="510" y="213" class="text">Embeddings</text>
+  <text x="510" y="231" class="text">(Vectorize)</text>
+
+  <!-- Arrows to central process -->
+  <path d="M 110 240 L 300 300" class="arrow"/>
+  <path d="M 310 240 L 400 300" class="arrow"/>
+  <path d="M 510 240 L 450 300" class="arrow"/>
+
+  <!-- Row 3: Central Processing -->
+  <rect x="250" y="300" width="300" height="100" class="process" rx="5"/>
+  <text x="400" y="325" class="text" font-size="14">Multi-Agent Orchestrator</text>
+  <text x="400" y="350" class="text" font-size="11">• Repo Analysis</text>
+  <text x="400" y="368" class="text" font-size="11">• Content Generation • QA</text>
+
+  <!-- Arrows down -->
+  <path d="M 300 400 L 200 450" class="arrow"/>
+  <path d="M 400 400 L 400 450" class="arrow"/>
+  <path d="M 500 400 L 600 450" class="arrow"/>
+
+  <!-- Row 4: Storage Outputs -->
+  <rect x="80" y="450" width="120" height="80" class="storage" rx="5"/>
+  <text x="140" y="475" class="text">User Data</text>
+  <text x="140" y="493" class="text">(JSON)</text>
+  <text x="140" y="511" class="text">users.json</text>
+  <text x="140" y="529" class="text">projects.json</text>
+
+  <rect x="300" y="450" width="120" height="80" class="storage" rx="5"/>
+  <text x="360" y="475" class="text">Generated</text>
+  <text x="360" y="493" class="text">Content</text>
+  <text x="360" y="511" class="text">articles.json</text>
+  <text x="360" y="529" class="text">metadata.json</text>
+
+  <rect x="520" y="450" width="120" height="80" class="storage" rx="5"/>
+  <text x="580" y="475" class="text">Vector</text>
+  <text x="580" y="493" class="text">Store</text>
+  <text x="580" y="511" class="text">Qdrant</text>
+  <text x="580" y="529" class="text">Collections</text>
+
+  <!-- Right side: User Query Path -->
+  <rect x="800" y="70" width="120" height="60" class="entity" rx="5"/>
+  <text x="860" y="100" class="label">User</text>
+  <text x="860" y="118" class="label">Query</text>
+
+  <path d="M 860 130 L 860 170" class="arrow"/>
+
+  <rect x="800" y="170" width="120" height="70" class="process" rx="5"/>
+  <text x="860" y="195" class="text">API</text>
+  <text x="860" y="213" class="text">Request</text>
+  <text x="860" y="231" class="text">Validation</text>
+
+  <path d="M 860 240 L 860 300" class="arrow"/>
+
+  <rect x="750" y="300" width="220" height="100" class="process" rx="5"/>
+  <text x="860" y="325" class="text" font-size="13">QA Pipeline</text>
+  <text x="860" y="350" class="text" font-size="11">• Vector Search</text>
+  <text x="860" y="368" class="text" font-size="11">• LLM Generation</text>
+
+  <!-- Query to storage path -->
+  <path d="M 750 350 L 640 450" class="arrow"/>
+
+  <!-- Response path -->
+  <path d="M 860 400 L 860 450" class="arrow"/>
+
+  <rect x="800" y="450" width="120" height="80" class="storage" rx="5"/>
+  <text x="860" y="475" class="text">Response</text>
+  <text x="860" y="493" class="text">Cache</text>
+  <text x="860" y="511" class="text">(Session)</text>
+  <text x="860" y="529" class="text">localStorage</text>
+
+  <!-- Output path -->
+  <path d="M 860 530 L 860 570" class="arrow"/>
+
+  <rect x="800" y="570" width="120" height="60" class="entity" rx="5"/>
+  <text x="860" y="595" class="label">User</text>
+  <text x="860" y="613" class="label">Response</text>
+
+  <!-- Bottom Legend -->
+  <g>
+    <rect x="30" y="720" width="1140" height="60" fill="none" stroke="#bdc3c7" stroke-width="1"/>
+    
+    <!-- External -->
+    <rect x="50" y="735" width="20" height="20" class="external"/>
+    <text x="80" y="750" class="label" text-anchor="start" font-size="11">External Service/Source</text>
+
+    <!-- Process -->
+    <rect x="340" y="735" width="20" height="20" class="process"/>
+    <text x="370" y="750" class="label" text-anchor="start" font-size="11">Processing / Transformation</text>
+
+    <!-- Storage -->
+    <rect x="630" y="735" width="20" height="20" class="storage"/>
+    <text x="660" y="750" class="label" text-anchor="start" font-size="11">Data Storage / Cache</text>
+
+    <!-- Entity -->
+    <rect x="920" y="735" width="20" height="20" class="entity"/>
+    <text x="950" y="750" class="label" text-anchor="start" font-size="11">User / Entity</text>
+
+    <!-- Data flow info -->
+    <text x="50" y="768" class="label" text-anchor="start" font-size="10">📊 This diagram shows how repository data flows through analysis and storage systems, and how user queries are processed to generate responses.</text>
+  </g>
+</svg>

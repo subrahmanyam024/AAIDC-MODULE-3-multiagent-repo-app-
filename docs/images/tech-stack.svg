@@ -1,0 +1,140 @@
+<svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+  <!-- Define styles -->
+  <defs>
+    <style>
+      .layer-bg { fill: #ecf0f1; stroke: #95a5a6; stroke-width: 1; }
+      .tech-box { fill: #3498db; stroke: #2c3e50; stroke-width: 2; }
+      .lang-box { fill: #e74c3c; stroke: #2c3e50; stroke-width: 2; }
+      .db-box { fill: #2ecc71; stroke: #2c3e50; stroke-width: 2; }
+      .text { font-family: Arial, sans-serif; font-size: 12px; fill: white; text-anchor: middle; font-weight: bold; }
+      .label { font-family: Arial, sans-serif; font-size: 13px; fill: #2c3e50; text-anchor: start; font-weight: bold; }
+      .title { font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; fill: #2c3e50; text-anchor: middle; }
+      .layer-title { font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; fill: #2c3e50; text-anchor: start; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="500" y="35" class="title">Technology Stack</text>
+
+  <!-- Layer 1: Frontend -->
+  <rect x="20" y="60" width="960" height="100" class="layer-bg" rx="5"/>
+  <text x="40" y="80" class="layer-title">Frontend Layer</text>
+
+  <rect x="50" y="95" width="140" height="55" class="tech-box" rx="3"/>
+  <text x="120" y="115" class="text">HTML5</text>
+  <text x="120" y="135" class="text" font-size="10">Markup</text>
+
+  <rect x="220" y="95" width="140" height="55" class="tech-box" rx="3"/>
+  <text x="290" y="115" class="text">CSS3</text>
+  <text x="290" y="135" class="text" font-size="10">Styling</text>
+
+  <rect x="390" y="95" width="140" height="55" class="tech-box" rx="3"/>
+  <text x="460" y="115" class="text">JavaScript</text>
+  <text x="460" y="135" class="text" font-size="10">Vanilla</text>
+
+  <rect x="560" y="95" width="140" height="55" class="tech-box" rx="3"/>
+  <text x="630" y="115" class="text">Responsive</text>
+  <text x="630" y="135" class="text" font-size="10">Design</text>
+
+  <rect x="730" y="95" width="220" height="55" class="tech-box" rx="3"/>
+  <text x="840" y="115" class="text">WCAG 2.1 A11y</text>
+  <text x="840" y="135" class="text" font-size="10">Keyboard Nav + Screen Reader</text>
+
+  <!-- Layer 2: Backend & Orchestration -->
+  <rect x="20" y="180" width="960" height="130" class="layer-bg" rx="5"/>
+  <text x="40" y="200" class="layer-title">Backend & Orchestration Layer</text>
+
+  <rect x="50" y="215" width="130" height="85" class="lang-box" rx="3"/>
+  <text x="115" y="240" class="text">Python 3.10</text>
+  <text x="115" y="260" class="text" font-size="10">Runtime</text>
+  <text x="115" y="280" class="text" font-size="10">Language</text>
+
+  <rect x="210" y="215" width="130" height="85" class="tech-box" rx="3"/>
+  <text x="275" y="240" class="text">Flask</text>
+  <text x="275" y="260" class="text" font-size="10">REST API</text>
+  <text x="275" y="280" class="text" font-size="10">Framework</text>
+
+  <rect x="370" y="215" width="130" height="85" class="tech-box" rx="3"/>
+  <text x="435" y="240" class="text">LangGraph</text>
+  <text x="435" y="260" class="text" font-size="10">Agent</text>
+  <text x="435" y="280" class="text" font-size="10">Orchestration</text>
+
+  <rect x="530" y="215" width="130" height="85" class="tech-box" rx="3"/>
+  <text x="595" y="240" class="text">LangChain</text>
+  <text x="595" y="260" class="text" font-size="10">Text Processing</text>
+  <text x="595" y="280" class="text" font-size="10">&amp; Utilities</text>
+
+  <rect x="690" y="215" width="230" height="85" class="tech-box" rx="3"/>
+  <text x="805" y="240" class="text">JWT &amp; Auth</text>
+  <text x="805" y="260" class="text" font-size="10">Flask-JWT-Extended</text>
+  <text x="805" y="280" class="text" font-size="10">Secure Token Auth</text>
+
+  <!-- Layer 3: AI/ML Services -->
+  <rect x="20" y="330" width="960" height="110" class="layer-bg" rx="5"/>
+  <text x="40" y="350" class="layer-title">AI/ML Services Layer</text>
+
+  <rect x="50" y="365" width="180" height="70" class="tech-box" rx="3"/>
+  <text x="140" y="390" class="text">Cohere LLM</text>
+  <text x="140" y="410" class="text" font-size="10">Text Generation</text>
+  <text x="140" y="425" class="text" font-size="10">&amp; Analysis</text>
+
+  <rect x="280" y="365" width="180" height="70" class="tech-box" rx="3"/>
+  <text x="370" y="390" class="text">Jina AI</text>
+  <text x="370" y="410" class="text" font-size="10">Vector</text>
+  <text x="370" y="425" class="text" font-size="10">Embeddings</text>
+
+  <rect x="510" y="365" width="180" height="70" class="tech-box" rx="3"/>
+  <text x="600" y="390" class="text">Sentence Trans.</text>
+  <text x="600" y="410" class="text" font-size="10">Embeddings</text>
+  <text x="600" y="425" class="text" font-size="10">Fallback</text>
+
+  <rect x="740" y="365" width="200" height="70" class="tech-box" rx="3"/>
+  <text x="840" y="390" class="text">7 Specialized</text>
+  <text x="840" y="410" class="text" font-size="10">AI Agents</text>
+  <text x="840" y="425" class="text" font-size="10">(Analysis, Generation, etc)</text>
+
+  <!-- Layer 4: Data & Storage -->
+  <rect x="20" y="460" width="960" height="110" class="layer-bg" rx="5"/>
+  <text x="40" y="480" class="layer-title">Data &amp; Storage Layer</text>
+
+  <rect x="50" y="495" width="180" height="70" class="db-box" rx="3"/>
+  <text x="140" y="520" class="text">Qdrant Vector DB</text>
+  <text x="140" y="540" class="text" font-size="10">Semantic Search</text>
+  <text x="140" y="555" class="text" font-size="10">Port 6333</text>
+
+  <rect x="280" y="495" width="180" height="70" class="db-box" rx="3"/>
+  <text x="370" y="520" class="text">JSON Storage</text>
+  <text x="370" y="540" class="text" font-size="10">Users, Projects,</text>
+  <text x="370" y="555" class="text" font-size="10">Articles</text>
+
+  <rect x="510" y="495" width="180" height="70" class="db-box" rx="3"/>
+  <text x="600" y="520" class="text">Cache Layer</text>
+  <text x="600" y="540" class="text" font-size="10">localStorage</text>
+  <text x="600" y="555" class="text" font-size="10">(Frontend)</text>
+
+  <rect x="740" y="495" width="200" height="70" class="db-box" rx="3"/>
+  <text x="840" y="520" class="text">External APIs</text>
+  <text x="840" y="540" class="text" font-size="10">GitHub Repos,</text>
+  <text x="840" y="555" class="text" font-size="10">Web Search</text>
+
+  <!-- Layer 5: Deployment -->
+  <rect x="20" y="590" width="960" height="90" class="layer-bg" rx="5"/>
+  <text x="40" y="610" class="layer-title">Deployment &amp; Infrastructure</text>
+
+  <rect x="50" y="625" width="180" height="50" class="tech-box" rx="3"/>
+  <text x="140" y="650" class="text">Docker</text>
+  <text x="140" y="665" class="text" font-size="10">Containerization</text>
+
+  <rect x="280" y="625" width="180" height="50" class="tech-box" rx="3"/>
+  <text x="370" y="650" class="text">Docker Compose</text>
+  <text x="370" y="665" class="text" font-size="10">Orchestration</text>
+
+  <rect x="510" y="625" width="180" height="50" class="tech-box" rx="3"/>
+  <text x="600" y="650" class="text">Nginx</text>
+  <text x="600" y="665" class="text" font-size="10">Reverse Proxy</text>
+
+  <rect x="740" y="625" width="200" height="50" class="tech-box" rx="3"/>
+  <text x="840" y="650" class="text">Gunicorn</text>
+  <text x="840" y="665" class="text" font-size="10">WSGI Server</text>
+
+</svg>
